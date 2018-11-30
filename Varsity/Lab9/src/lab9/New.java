@@ -39,17 +39,3 @@ public class New {
     }
     
 }
-
-//Lab Final:
-
-//Inheritence
-//polymorphism
-//encapsulation
-//abstraction
-
-//Lab report: 
-//1. Problem definition
-//2. code + output
-//3. Explanation
-
-//class test topic = polymorphism
