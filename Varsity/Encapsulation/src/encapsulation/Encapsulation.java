@@ -1,4 +1,3 @@
-
 package encapsulation;
 
 class ABC{
