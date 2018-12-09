@@ -31,9 +31,10 @@ public class New {
     
     public static void main(String[] args) {
         B b = new B();
+        C c = new C();
+        
         b.text();
         b.show("Show method");
-        C c = new C();
         c.area();
         System.out.println(c.sum(5,6));
     }
