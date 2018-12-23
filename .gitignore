@@ -21,3 +21,15 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/GUI Projects/MealManagement/nbproject/private/
+/GUI Projects/MealManagement/build/
+/GUI Projects/DBMeal/nbproject/private/
+/USSL/Class 5/Aditta/Overloading2/nbproject/private/
+/USSL/Class 5/Aditta/MethodOverloading2/nbproject/private/
+/USSL/Class 5/Aditta/MethodOverloading2/build/
+/USSL/Class 5/Aditta/MethodOverloadingDifferetNumberOfParameters/nbproject/private/
+/USSL/Class 5/Aditta/MethodOverloadingDifferetNumberOfParameters/build/
+/USSL/Class 5/Aditta/MethodOverloadingDifferentInDataTypesOfParameters/nbproject/private/
+/USSL/Class 5/Aditta/MethodOverloadingDifferentInDataTypesOfParameters/build/
+/USSL/Class 5/Aditta/MethodOverloadingSequenceOfDataTypeOfArguments/nbproject/private/
+/USSL/Class 5/Aditta/MethodOverloadingSequenceOfDataTypeOfArguments/build/
