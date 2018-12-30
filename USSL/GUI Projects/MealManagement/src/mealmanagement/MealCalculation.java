@@ -12,8 +12,14 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import java.text.*;
 import java.awt.print.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -24,9 +30,27 @@ public class MealCalculation extends javax.swing.JFrame {
     int xMouse;
     int yMouse;
     
+    Connection myconObj = null;
+    Statement mystatObj = null;
+    ResultSet myresObj = null;
+    
     public MealCalculation() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        selectionall();
+    }
+    
+    public void selectionall(){
+        try{
+            myconObj = DriverManager.getConnection("jdbc:derby://localhost:1527/MealManagement", "aditta", "Adittacse97@");
+            mystatObj = myconObj.createStatement();
+            myresObj = mystatObj.executeQuery("Select * from Aditta.Login");
+            mealTable.setModel(DbUtils.resultSetToTableModel(myresObj));
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
     /** This method is called from within the constructor to
@@ -52,11 +76,12 @@ public class MealCalculation extends javax.swing.JFrame {
         lunch = new javax.swing.JComboBox<>();
         dinner = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        userName = new javax.swing.JComboBox<>();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jLabel6 = new javax.swing.JLabel();
         btnInsert = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -170,7 +195,7 @@ public class MealCalculation extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel5.setText("Name");
 
-        jComboBox1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        userName.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         jDateChooser2.setDateFormatString("d MMM, yyyy");
         jDateChooser2.setFocusable(false);
@@ -196,29 +221,38 @@ public class MealCalculation extends javax.swing.JFrame {
             }
         });
 
+        btnDelete.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(userName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
                         .addComponent(btnInsert)
-                        .addGap(45, 45, 45)
+                        .addGap(18, 18, 18)
                         .addComponent(btnUpdate)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                        .addGap(17, 17, 17)
+                        .addComponent(btnDelete)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,17 +260,18 @@ public class MealCalculation extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInsert)
-                    .addComponent(btnUpdate))
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
                 .addGap(25, 25, 25))
         );
 
@@ -435,7 +470,17 @@ public class MealCalculation extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        JOptionPane.showMessageDialog(btnUpdate, "Successfully Updated");
+//        try {
+//            String sql = "update Aditta.Login set Name  = '"+userName.getText()+"'"+",breakfast = '"+breakfast.getComponent(WIDTH)+"'"+", lunch = '"+lunch.getComponent(WIDTH)+", dinner = '"dinner.getComponent(WIDTH);
+//            Statement update = myconObj.createStatement();
+//            update.executeUpdate(sql);
+//            
+//            JOptionPane.showMessageDialog(btnUpdate, "Successfully Updated");
+//        } catch (Exception E) {
+//            E.printStackTrace();
+//        }
+//        selectionall();
+        
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void mealTablePrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mealTablePrintActionPerformed
@@ -468,6 +513,21 @@ public class MealCalculation extends javax.swing.JFrame {
         xMouse = evt.getX();
         yMouse = evt.getY();
     }//GEN-LAST:event_formMousePressed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+//        try {
+//            String sql = "Delete from Aditta.Login where id = "+userName.getSelectedItem();
+//            Statement add = myconObj.createStatement();
+//            add.executeUpdate(sql);
+//            userName.setName("");
+//            breakfast.setAction();
+//            lunch.setAction();
+//            dinner.setAction();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        selectionall();
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -506,11 +566,11 @@ public class MealCalculation extends javax.swing.JFrame {
     private javax.swing.JLabel Close;
     private javax.swing.JLabel Minimise;
     private javax.swing.JComboBox<String> breakfast;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> dinner;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
@@ -536,6 +596,7 @@ public class MealCalculation extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> lunch;
     private javax.swing.JTable mealTable;
     private javax.swing.JButton mealTablePrint;
+    private javax.swing.JComboBox<String> userName;
     // End of variables declaration//GEN-END:variables
 
 }
