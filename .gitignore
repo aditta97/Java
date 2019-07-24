@@ -21,6 +21,7 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+<<<<<<< HEAD
 /GUI Projects/MealManagement/nbproject/private/
 /GUI Projects/MealManagement/build/
 /GUI Projects/DBMeal/nbproject/private/
@@ -280,3 +281,5 @@ hs_err_pid*
 /USSL/GUI Projects/Notepad/dist/
 /Encryption Algorithm/MD5/nbproject/private/
 /Encryption Algorithm/MD5/build/
+=======
+>>>>>>> parent of a10b507... Meal Management System
