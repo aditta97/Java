@@ -5,6 +5,7 @@
  */
 package db;
 
+import java.sql.*;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,6 +26,7 @@ public class DB {
     String query = "Select * from Aditta.Login WHERE `username`=? and `password`=? and `usertype`=?";
     
     try{
+        //Class.forName("jdbc:derby://localhost:1527/MealManagement", "aditta", "Adittacse97@");
         myconObj = DriverManager.getConnection("jdbc:derby://localhost:1527/MealManagement", "aditta", "Adittacse97@");
     }
     catch(HeadlessException | SQLException e){
