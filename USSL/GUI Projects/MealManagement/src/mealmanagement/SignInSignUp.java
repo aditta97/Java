@@ -5,14 +5,22 @@
  */
 package mealmanagement;
 
+import com.mysql.cj.MysqlConnection;
 import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -26,7 +34,6 @@ public class SignInSignUp extends javax.swing.JFrame {
     Connection con = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-    String query = "Select * from Aditta.Login";
 
     public SignInSignUp() {
         initComponents();
@@ -68,12 +75,12 @@ public class SignInSignUp extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         btnSignUp = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        regJoiningDate = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         Close = new javax.swing.JLabel();
         Minimise = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Welcome To Meal Management System");
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
@@ -135,6 +142,11 @@ public class SignInSignUp extends javax.swing.JFrame {
 
         userType.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         userType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
+        userType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userTypeActionPerformed(evt);
+            }
+        });
 
         jCheckBox2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jCheckBox2.setText("Remember Me");
@@ -144,7 +156,7 @@ public class SignInSignUp extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jCheckBox1)
@@ -167,17 +179,17 @@ public class SignInSignUp extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(userType, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
                 .addComponent(btnForgottenPassword)
-                .addGap(51, 51, 51))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(107, 107, 107)
                         .addComponent(jLabel1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
+                        .addGap(95, 95, 95)
                         .addComponent(btnLogIn)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -186,7 +198,7 @@ public class SignInSignUp extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addGap(50, 50, 50)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -202,11 +214,11 @@ public class SignInSignUp extends javax.swing.JFrame {
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jCheckBox2)
-                .addGap(8, 8, 8)
-                .addComponent(btnLogIn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnLogIn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnForgottenPassword)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -233,6 +245,12 @@ public class SignInSignUp extends javax.swing.JFrame {
         jLabel7.setText("Phone Number");
 
         regPhoneNumber.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        regPhoneNumber.setActionCommand("<Not Set>");
+        regPhoneNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                regPhoneNumberKeyTyped(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel8.setText("Password");
@@ -246,11 +264,16 @@ public class SignInSignUp extends javax.swing.JFrame {
 
         btnSignUp.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         btnSignUp.setText("Sign Up");
+        btnSignUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSignUpActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel4.setText("Registration");
 
-        jDateChooser1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        regJoiningDate.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         jLabel10.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel10.setText("Joining Date");
@@ -281,14 +304,14 @@ public class SignInSignUp extends javax.swing.JFrame {
                             .addComponent(regPhoneNumber)
                             .addComponent(regPassword)
                             .addComponent(regConfirmPassword)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)))
+                            .addComponent(regJoiningDate, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addComponent(btnReset)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                         .addComponent(btnSignUp)
-                        .addGap(55, 55, 55)))
-                .addGap(25, 25, 25))
+                        .addGap(66, 66, 66)))
+                .addGap(14, 14, 14))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,9 +319,9 @@ public class SignInSignUp extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel4)
                 .addGap(50, 50, 50)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(regJoiningDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -319,11 +342,11 @@ public class SignInSignUp extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(regConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnReset)
                     .addComponent(btnSignUp))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
 
         Close.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
@@ -350,15 +373,18 @@ public class SignInSignUp extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(693, 693, 693)
-                .addComponent(Minimise)
-                .addGap(6, 6, 6)
-                .addComponent(Close))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(693, 693, 693)
+                        .addComponent(Minimise)
+                        .addGap(6, 6, 6)
+                        .addComponent(Close))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,9 +394,10 @@ public class SignInSignUp extends javax.swing.JFrame {
                     .addComponent(Minimise)
                     .addComponent(Close))
                 .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -381,14 +408,17 @@ public class SignInSignUp extends javax.swing.JFrame {
 //        String p = password.getText();
 
         try {
-            con = DriverManager.getConnection("jdbc:derby://localhost:1527/MealManagement", "aditta", "Adittacse97@");
+            String query = "Select * from Root.Registration WHERE username=? and password=? and usertypeId = ?";
+            con = DriverManager.getConnection("jdbc:derby://localhost:1527/MealManagementDB", "root", "123");
             pst = con.prepareStatement(query);
-            pst.setString(2, userName.getText());
-            pst.setString(3, password.getText());
-            pst.setString(4, String.valueOf(userType.getSelectedItem()));
-            rs = pst.executeQuery(query);
+            
+            pst.setString(1, userName.getText());
+            pst.setString(2, new String(password.getPassword()));
+            //pst.setString(3, String.valueOf(userType.getSelectedIndex()));
+            pst.setInt(3, (int) userType.getSelectedItem());
+            rs = pst.executeQuery();
             if (rs.next()) {
-                JOptionPane.showMessageDialog(btnLogIn, "username and password matched and you are logined as " + rs.getString("usertype"));
+                JOptionPane.showMessageDialog(btnLogIn, "username and password matched and you are logined as " + rs.getString("usertypeId"));
                 if (userType.getSelectedIndex() == 0) {
                     Home H = new Home();
                     H.setVisible(true);
@@ -420,7 +450,7 @@ public class SignInSignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        jDateChooser1.setDate(null);
+        regJoiningDate.setDate(null);
         regUsername.setText(null);
         regEmailAddress.setText(null);
         regPhoneNumber.setText(null);
@@ -463,6 +493,47 @@ public class SignInSignUp extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
+    private void btnSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignUpActionPerformed
+
+        try {
+            con = DriverManager.getConnection("jdbc:derby://localhost:1527/MealManagementDB", "root", "123");
+            String query = "insert into Root.registration" + "(username, email, password, confirmPassword, joiningdate, phoneNumber)" + "values (?,?,?,?,?,?)";
+            pst = con.prepareStatement(query);
+            
+//            String query2 = "insert into Root.profilePicture" + "(name)" + "values (?)";
+//            con = DriverManager.getConnection("jdbc:derby://localhost:1527/MealManagementDB", "root", "123");
+//            pst = con.prepareStatement(query2);
+            
+            pst.setString(1, regUsername.getText());
+            pst.setString(2, regEmailAddress.getText());
+            pst.setString(3, new String(regPassword.getPassword()));
+            pst.setString(4, new String(regConfirmPassword.getPassword()));
+            java.sql.Date date = new java.sql.Date(regJoiningDate.getDate().getTime());
+            pst.setDate(5, date);
+            pst.setString(6, regPhoneNumber.getText());
+            //pst.setString(7, query);
+            
+            pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(btnSignUp, "Successfully Registered");
+        } catch (SQLException ex) {
+            Logger.getLogger(SignInSignUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnSignUpActionPerformed
+
+    private void regPhoneNumberKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_regPhoneNumberKeyTyped
+        char c = evt.getKeyChar();
+        if(!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || c == KeyEvent.VK_DELETE)){
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_regPhoneNumberKeyTyped
+
+    private void userTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_userTypeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -489,6 +560,13 @@ public class SignInSignUp extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(SignInSignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        try {
+            //UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+            UIManager.setLookAndFeel("com.jtattoo.plaf.bernstein.BernsteinLookAndFeel");
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+        }
+        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
@@ -505,7 +583,6 @@ public class SignInSignUp extends javax.swing.JFrame {
     private javax.swing.JButton btnSignUp;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -522,6 +599,7 @@ public class SignInSignUp extends javax.swing.JFrame {
     private javax.swing.JPasswordField password;
     private javax.swing.JPasswordField regConfirmPassword;
     private javax.swing.JTextField regEmailAddress;
+    private com.toedter.calendar.JDateChooser regJoiningDate;
     private javax.swing.JPasswordField regPassword;
     private javax.swing.JTextField regPhoneNumber;
     private javax.swing.JTextField regUsername;
