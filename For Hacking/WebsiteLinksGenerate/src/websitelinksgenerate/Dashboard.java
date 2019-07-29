@@ -5,20 +5,13 @@
  */
 package websitelinksgenerate;
 
-import java.awt.Color;
 import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,7 +19,7 @@ import javax.swing.JOptionPane;
  * @author adittachakraborty
  */
 public class Dashboard extends javax.swing.JFrame {
-    
+
     Clipboard clipboard = getToolkit().getSystemClipboard();
 
     /**
@@ -137,7 +130,7 @@ public class Dashboard extends javax.swing.JFrame {
             int i;
             try {
                 while ((i = br.read()) != -1) {
-                    s.append((char)i);
+                    s.append((char) i);
                 }
                 txtOutput.setText(s.toString() + "\n");
             } catch (IOException ex) {
@@ -150,11 +143,11 @@ public class Dashboard extends javax.swing.JFrame {
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         //Getting the file path which URLs are saved
         File fi = new File("Website URLs.txt");
-        //If found the file, then deleting that as it as previos file tto generate new & fresh rersults
-        if(fi.exists()){
+        //If the file found, then deleting that as it as previos file to generate new & fresh results
+        if (fi.exists()) {
             fi.delete();
         }
-        //Getting teh Domain
+        //Getting the Domain
         String url = txtURL.getText();
         //Sending the domain to get all URLs of that
         //Step 1: Genereting URLs
@@ -165,7 +158,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGoActionPerformed
 
     private void txtURLMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtURLMouseReleased
-        if(evt.isPopupTrigger()){
+        if (evt.isPopupTrigger()) {
             jPopupMenu1.show(this, evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_txtURLMouseReleased
