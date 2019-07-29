@@ -122,8 +122,6 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     public void finalData(String finalData) {
-        String url = finalData;
-        //System.out.println(url);
         try {
             FileReader fr = new FileReader("Website URLs.txt");
             BufferedReader br = new BufferedReader(fr);
@@ -134,6 +132,8 @@ public class Dashboard extends javax.swing.JFrame {
                     s.append((char) i);
                 }
                 txtOutput.setText(s.toString() + "\n");
+                br.close();
+                fr.close();
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "IOException Error");
             }
