@@ -107,6 +107,7 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     public void dataOutput(String url) {
         String text = url;
+        System.out.println(text);
         try {
             File fi = new File("Website URLs.txt");
             try (FileWriter fw = new FileWriter(fi, true)) {
@@ -122,7 +123,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     public void finalData(String finalData) {
         String url = finalData;
-        System.out.println(url);
+        //System.out.println(url);
         try {
             FileReader fr = new FileReader("Website URLs.txt");
             BufferedReader br = new BufferedReader(fr);
@@ -146,6 +147,8 @@ public class Dashboard extends javax.swing.JFrame {
         //If the file found, then deleting that as it as previos file to generate new & fresh results
         if (fi.exists()) {
             fi.delete();
+        } else {
+            //return;
         }
         //Getting the Domain
         String url = txtURL.getText();
