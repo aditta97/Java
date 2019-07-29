@@ -6,13 +6,28 @@
 package websitelinksgenerate;
 
 import java.awt.Color;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author adittachakraborty
  */
 public class Dashboard extends javax.swing.JFrame {
+    
+    Clipboard clipboard = getToolkit().getSystemClipboard();
 
     /**
      * Creates new form Dashboard
@@ -30,6 +45,7 @@ public class Dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         jLabel1 = new javax.swing.JLabel();
         txtURL = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -37,11 +53,17 @@ public class Dashboard extends javax.swing.JFrame {
         btnGo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("URLs Generating Tool");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel1.setText("URL");
 
         txtURL.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtURL.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                txtURLMouseReleased(evt);
+            }
+        });
 
         txtOutput.setColumns(20);
         txtOutput.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -90,19 +112,63 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-public String dataOutput(String newUrl) {
-        String url = newUrl;
-        System.out.println(url);
-        for (int i = 0; i < url.length(); i++) {
-            txtOutput.setText(i + "\n");
+    public void dataOutput(String url) {
+        String text = url;
+        try {
+            File fi = new File("Website URLs.txt");
+            try (FileWriter fw = new FileWriter(fi, true)) {
+                fw.write(text + "\n");
+                fw.flush();
+                fw.close();
+            }
+            //JOptionPane.showMessageDialog(this, "Saved Successfully");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error in save");
         }
-        return url;
+    }
+
+    public void finalData(String finalData) {
+        String url = finalData;
+        System.out.println(url);
+        try {
+            FileReader fr = new FileReader("Website URLs.txt");
+            BufferedReader br = new BufferedReader(fr);
+            StringBuilder s = new StringBuilder();
+            int i;
+            try {
+                while ((i = br.read()) != -1) {
+                    s.append((char)i);
+                }
+                txtOutput.setText(s.toString() + "\n");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "IOException Error");
+            }
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "File Not Found");
+        }
     }
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
+        //Getting the file path which URLs are saved
+        File fi = new File("Website URLs.txt");
+        //If found the file, then deleting that as it as previos file tto generate new & fresh rersults
+        if(fi.exists()){
+            fi.delete();
+        }
+        //Getting teh Domain
         String url = txtURL.getText();
+        //Sending the domain to get all URLs of that
+        //Step 1: Genereting URLs
+        //Step 2: Result are saving in the file
         WebsiteLinksGenerate.generator(url);
-        dataOutput(url);
+        //Giving output to the display from the file
+        finalData(url);
     }//GEN-LAST:event_btnGoActionPerformed
+
+    private void txtURLMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtURLMouseReleased
+        if(evt.isPopupTrigger()){
+            jPopupMenu1.show(this, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_txtURLMouseReleased
 
     /**
      * @param args the command line arguments
@@ -124,7 +190,7 @@ public String dataOutput(String newUrl) {
             java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
@@ -136,6 +202,7 @@ public String dataOutput(String newUrl) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea txtOutput;
     private javax.swing.JTextField txtURL;
