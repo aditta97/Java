@@ -84,24 +84,24 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(btnGo))
                 .addGap(36, 36, 36)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-public static String lol(String newUrl) {
+public String dataOutput(String newUrl) {
         String url = newUrl;
         System.out.println(url);
-        //txtOutput.setText(WebsiteLinksGenerate.generator(url));
+        for (int i = 0; i < url.length(); i++) {
+            txtOutput.setText(i + "\n");
+        }
         return url;
     }
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         String url = txtURL.getText();
-        WebsiteLinksGenerate.generator(lol(url));
-        txtOutput.setText(lol(url));
-        //System.out.println(lol(url));
-        //lol(url);
+        WebsiteLinksGenerate.generator(url);
+        dataOutput(url);
     }//GEN-LAST:event_btnGoActionPerformed
 
     /**
@@ -120,22 +120,16 @@ public static String lol(String newUrl) {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Dashboard().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Dashboard().setVisible(true);
         });
     }
 
