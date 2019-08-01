@@ -201,7 +201,7 @@ public final class Dashboard extends javax.swing.JFrame {
             try {
                 File fi = new File("Website URLs.txt");
                 try (FileWriter fw = new FileWriter(fi, true)) {
-                    fw.write("URLs Not Found Or Protocol Error");
+                    fw.write("URLs Not Found Or Protocol Type Error");
                     fw.flush();
                     fw.close();
                     //After writing the file, open the file & showing error message in the display
