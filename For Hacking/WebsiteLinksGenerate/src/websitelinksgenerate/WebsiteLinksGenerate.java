@@ -71,7 +71,7 @@ public class WebsiteLinksGenerate {
                                         String url = uri.toString();
                                         new Dashboard().dataOutput(url);
                                     } catch (URISyntaxException e) {
-                                        //e.printStackTrace();
+                                        JOptionPane.showMessageDialog(null, "Invalid URL", "Check URL", JOptionPane.ERROR_MESSAGE);
                                     }
                                 } else {
                                     URI uri;
@@ -81,7 +81,7 @@ public class WebsiteLinksGenerate {
                                         String url = uri.toString();
                                         new Dashboard().dataOutput(url);
                                     } catch (URISyntaxException e) {
-                                        //e.printStackTrace();
+                                        JOptionPane.showMessageDialog(null, "Invalid URL", "Check URL", JOptionPane.ERROR_MESSAGE);
                                     }
                                 }
                             }
@@ -90,7 +90,7 @@ public class WebsiteLinksGenerate {
                 }
             }, true);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Protocol Name Is Wrong", "Check Protocol Name", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Returned HTTP response code: 503", "Not Possible", JOptionPane.ERROR_MESSAGE);
         } finally {

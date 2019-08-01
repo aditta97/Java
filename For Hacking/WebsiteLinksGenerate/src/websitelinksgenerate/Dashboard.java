@@ -174,7 +174,7 @@ public final class Dashboard extends javax.swing.JFrame {
             }
             //JOptionPane.showMessageDialog(this, "Saved Successfully");
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error in save");
+            JOptionPane.showMessageDialog(this, "Error to Save");
         }
     }
 
@@ -222,7 +222,7 @@ public final class Dashboard extends javax.swing.JFrame {
                 }
                 //JOptionPane.showMessageDialog(this, "Saved Successfully");
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error in save");
+                JOptionPane.showMessageDialog(this, "Error To Save");
             }
         }
     }
