@@ -32,7 +32,7 @@ public final class Dashboard extends javax.swing.JFrame {
         initComponents();
         JFrameIcon();
     }
-    
+
     //Setting an Icon for jFrame
     void JFrameIcon() {
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Icons/Cobra.png")));
@@ -54,6 +54,8 @@ public final class Dashboard extends javax.swing.JFrame {
         txtOutput = new javax.swing.JTextArea();
         btnGo = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -62,10 +64,10 @@ public final class Dashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("URLs Generating Tool");
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Monaco", 0, 14)); // NOI18N
         jLabel1.setText("URL");
 
-        txtURL.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtURL.setFont(new java.awt.Font("Monaco", 0, 14)); // NOI18N
         txtURL.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 txtURLMouseReleased(evt);
@@ -73,11 +75,11 @@ public final class Dashboard extends javax.swing.JFrame {
         });
 
         txtOutput.setColumns(20);
-        txtOutput.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtOutput.setFont(new java.awt.Font("Monaco", 0, 14)); // NOI18N
         txtOutput.setRows(5);
         jScrollPane1.setViewportView(txtOutput);
 
-        btnGo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnGo.setFont(new java.awt.Font("Monaco", 0, 14)); // NOI18N
         btnGo.setText("Go");
         btnGo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,9 +87,15 @@ public final class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Monaco", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(204, 0, 51));
         jLabel2.setText("Please Wait Until Results Are Generated..");
+
+        jLabel3.setFont(new java.awt.Font("Monaco", 0, 12)); // NOI18N
+        jLabel3.setText("Copyright © Aditta Chakraborty 2019");
+
+        jLabel4.setFont(new java.awt.Font("Monaco", 0, 12)); // NOI18N
+        jLabel4.setText("Version 1.O");
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -113,18 +121,23 @@ public final class Dashboard extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(255, 255, 255)
+                        .addGap(194, 194, 194)
                         .addComponent(jLabel1)
-                        .addGap(44, 44, 44)
-                        .addComponent(txtURL, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55)
+                        .addGap(30, 30, 30)
+                        .addComponent(txtURL, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
                         .addComponent(btnGo))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(292, 292, 292)
+                        .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(318, 318, 318)
-                        .addComponent(jLabel2)))
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(541, 541, 541)
+                                .addComponent(jLabel4)))))
                 .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
@@ -139,7 +152,11 @@ public final class Dashboard extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addContainerGap())
         );
 
         pack();
@@ -162,6 +179,7 @@ public final class Dashboard extends javax.swing.JFrame {
     }
 
     public void finalData(String finalData) {
+        //Opening the file to display output
         try {
             FileReader fr = new FileReader("Website URLs.txt");
             BufferedReader br = new BufferedReader(fr);
@@ -178,7 +196,34 @@ public final class Dashboard extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "IOException Error");
             }
         } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(this, "File Not Found");
+            //If file not found, then it is protocol error or other things
+            //Now it's making the same file & writing error message
+            try {
+                File fi = new File("Website URLs.txt");
+                try (FileWriter fw = new FileWriter(fi, true)) {
+                    fw.write("URLs Not Found Or Protocol Error");
+                    fw.flush();
+                    fw.close();
+                    //After writing the file, open the file & showing error message in the display
+                    FileReader fr = new FileReader("Website URLs.txt");
+                    BufferedReader br = new BufferedReader(fr);
+                    StringBuilder s = new StringBuilder();
+                    int i;
+                    try {
+                        while ((i = br.read()) != -1) {
+                            s.append((char) i);
+                        }
+                        txtOutput.setText(s.toString() + "\n");
+                        br.close();
+                        fr.close();
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(this, "IOException Error");
+                    }
+                }
+                //JOptionPane.showMessageDialog(this, "Saved Successfully");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error in save");
+            }
         }
     }
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
@@ -246,6 +291,8 @@ public final class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnGo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

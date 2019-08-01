@@ -17,8 +17,12 @@ import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+import javax.swing.JOptionPane;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.remote.BrowserType;
 
 /**
  *
@@ -36,19 +40,14 @@ public class WebsiteLinksGenerate {
 
         try {
             URL u = new URL(name);
-            System.setProperty("http.agent", "Mozilla");
+            System.setProperty("http.agent", "Chrome");
             InputStream in = u.openStream();
             r = new InputStreamReader(in);
-//            try {
-//                InputStream in = u.openStream();
-//                r = new InputStreamReader(in);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
 
             ParserDelegator hp = new ParserDelegator();
             hp.parse(r, new HTMLEditorKit.ParserCallback() {
 
+                @Override
                 public void handleStartTag(HTML.Tag t, MutableAttributeSet a, int pos) {
 
                     if (t == HTML.Tag.A) {
@@ -72,7 +71,7 @@ public class WebsiteLinksGenerate {
                                         String url = uri.toString();
                                         new Dashboard().dataOutput(url);
                                     } catch (URISyntaxException e) {
-                                        e.printStackTrace();
+                                        //e.printStackTrace();
                                     }
                                 } else {
                                     URI uri;
@@ -82,7 +81,7 @@ public class WebsiteLinksGenerate {
                                         String url = uri.toString();
                                         new Dashboard().dataOutput(url);
                                     } catch (URISyntaxException e) {
-                                        e.printStackTrace();
+                                        //e.printStackTrace();
                                     }
                                 }
                             }
@@ -93,14 +92,13 @@ public class WebsiteLinksGenerate {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        finally {
+            JOptionPane.showMessageDialog(null, "Returned HTTP response code: 503", "Not Possible", JOptionPane.ERROR_MESSAGE);
+        } finally {
             if (r != null) {
                 try {
                     r.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Reader Not Closed", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -110,7 +108,7 @@ public class WebsiteLinksGenerate {
         Scanner input = new Scanner(System.in);
         String name = input.nextLine();
         System.out.println("");
-        //generator(name);
+        generator(name);
     }
 
 }
