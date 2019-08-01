@@ -193,7 +193,7 @@ public final class Dashboard extends javax.swing.JFrame {
                 br.close();
                 fr.close();
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "IOException Error");
+                JOptionPane.showMessageDialog(this, "\"Website URLs.txt\" File Error", "Can't Read File", JOptionPane.ERROR_MESSAGE);
             }
         } catch (FileNotFoundException e) {
             //If file not found, then it is protocol error or other things
