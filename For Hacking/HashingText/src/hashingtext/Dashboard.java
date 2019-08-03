@@ -230,7 +230,6 @@ public final class Dashboard extends javax.swing.JFrame {
             String hash = "SHA-512";
             txtOutput.setText(HashEncrypt.encryptThisString(hash, password));
         }
-        //System.out.println(HashEncrypt.encryptThisString(password));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
