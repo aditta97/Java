@@ -5,6 +5,7 @@
  */
 package notepad;
 
+import com.jtattoo.plaf.bernstein.BernsteinLookAndFeel;
 import java.awt.Color;
 import java.awt.FileDialog;
 import java.awt.HeadlessException;
@@ -23,6 +24,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Properties;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -435,7 +437,7 @@ public final class Notepad extends javax.swing.JFrame {
                 if ("".equals(filename)) {
                     saveas();
                 } else {
-                    save(filename);      
+                    save(filename);
                 }
                 setTitle(programName);
                 filename = "";
@@ -513,7 +515,7 @@ public final class Notepad extends javax.swing.JFrame {
             if (saveas.getSelectedFile().getAbsolutePath() != null) {
                 dir = saveas.getSelectedFile().getAbsolutePath();
                 filename = dir + ".txt";
-   
+
                 setTitle(filename);
                 try {
                     DataOutputStream d;
@@ -697,7 +699,7 @@ public final class Notepad extends javax.swing.JFrame {
     }//GEN-LAST:event_PasteActionPerformed
 
     private void textAreaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textAreaMouseReleased
-        if(evt.isPopupTrigger()) {
+        if (evt.isPopupTrigger()) {
             jPopupMenu1.show(this, evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_textAreaMouseReleased
@@ -733,6 +735,9 @@ public final class Notepad extends javax.swing.JFrame {
 
         //</editor-fold>
         try {
+            Properties props = new Properties();
+            props.put("logoString", "my company");
+            BernsteinLookAndFeel.setCurrentTheme(props);
             UIManager.setLookAndFeel("com.jtattoo.plaf.bernstein.BernsteinLookAndFeel");
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
         }
