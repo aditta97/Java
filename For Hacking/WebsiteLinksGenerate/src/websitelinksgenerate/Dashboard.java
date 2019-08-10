@@ -16,13 +16,16 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import static websitelinksgenerate.InternetConnection.InternetConnection;
 
 /**
  *
  * @author adittachakraborty
  */
 public final class Dashboard extends javax.swing.JFrame {
-
+    
+    int xMouse;
+    int yMouse;
     Clipboard clipboard = getToolkit().getSystemClipboard();
 
     /**
@@ -37,7 +40,7 @@ public final class Dashboard extends javax.swing.JFrame {
     void JFrameIcon() {
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Icons/Cobra.png")));
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,7 +48,7 @@ public final class Dashboard extends javax.swing.JFrame {
      */
     
     static String storeData = "";
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -60,12 +63,21 @@ public final class Dashboard extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("URLs Generating Tool");
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Monaco", 0, 14)); // NOI18N
         jLabel1.setText("URL");
@@ -99,9 +111,6 @@ public final class Dashboard extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Monaco", 0, 12)); // NOI18N
         jLabel4.setText("Version 1.O");
-
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
 
         jMenu2.setText("About");
 
@@ -165,102 +174,111 @@ public final class Dashboard extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    
+
     //Without File Storing System
-//    public static void dataOutput(String url) {
-//        String text = url;
-//        storeData = storeData.concat(text).concat("\n");
-//    }
-    
-    //With File Storing System
-    public void dataOutput(String url) {
+    public static void dataOutput(String url) {
         String text = url;
-        System.out.println(text);
-        try {
-            File fi = new File("Website URLs.txt");
-            try (FileWriter fw = new FileWriter(fi, true)) {
-                fw.write(text + "\n");
-                fw.flush();
-                fw.close();
-            }
-            //JOptionPane.showMessageDialog(this, "Saved Successfully");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error to Save");
-        }
+        storeData = storeData.concat(text).concat("\n");
     }
-    
-    //Without File Storing System
-//    public void finalData(String finalData) {
-//        txtOutput.setText(storeData);
-//    }
     
     //With File Storing System
+//    public void dataOutput(String url) {
+//        String text = url;
+//        System.out.println(text);
+//        try {
+//            File fi = new File("Website URLs.txt");
+//            try (FileWriter fw = new FileWriter(fi, true)) {
+//                fw.write(text + "\n");
+//                fw.flush();
+//                fw.close();
+//            }
+//            //JOptionPane.showMessageDialog(this, "Saved Successfully");
+//        } catch (IOException e) {
+//            JOptionPane.showMessageDialog(this, "Error to Save");
+//        }
+//    }
+
+    //Without File Storing System
     public void finalData(String finalData) {
-        //Opening the file to display output
-        try {
-            FileReader fr = new FileReader("Website URLs.txt");
-            BufferedReader br = new BufferedReader(fr);
-            StringBuilder s = new StringBuilder();
-            int i;
-            try {
-                while ((i = br.read()) != -1) {
-                    s.append((char) i);
-                }
-                txtOutput.setText(s.toString() + "\n");
-                br.close();
-                fr.close();
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "\"Website URLs.txt\" File Error", "Can't Read File", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (FileNotFoundException e) {
-            //If file not found, then it is protocol error or other things
-            //Now it's making the same file & writing error message
-            try {
-                File fi = new File("Website URLs.txt");
-                try (FileWriter fw = new FileWriter(fi, true)) {
-                    fw.write("URLs Not Found Or Protocol Type Error");
-                    fw.flush();
-                    fw.close();
-                    //After writing the file, open the file & showing error message in the display
-                    FileReader fr = new FileReader("Website URLs.txt");
-                    BufferedReader br = new BufferedReader(fr);
-                    StringBuilder s = new StringBuilder();
-                    int i;
-                    try {
-                        while ((i = br.read()) != -1) {
-                            s.append((char) i);
-                        }
-                        txtOutput.setText(s.toString() + "\n");
-                        br.close();
-                        fr.close();
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(this, "IOException Error");
-                    }
-                }
-                //JOptionPane.showMessageDialog(this, "Saved Successfully");
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error To Save");
-            }
-        }
+        txtOutput.setText(storeData);
     }
+    
+    //With File Storing System
+//    public void finalData(String finalData) {
+//        //Opening the file to display output
+//        try {
+//            FileReader fr = new FileReader("Website URLs.txt");
+//            BufferedReader br = new BufferedReader(fr);
+//            StringBuilder s = new StringBuilder();
+//            int i;
+//            try {
+//                while ((i = br.read()) != -1) {
+//                    s.append((char) i);
+//                }
+//                txtOutput.setText(s.toString() + "\n");
+//                br.close();
+//                fr.close();
+//            } catch (IOException ex) {
+//                JOptionPane.showMessageDialog(this, "\"Website URLs.txt\" File Error", "Can't Read File", JOptionPane.ERROR_MESSAGE);
+//            }
+//        } catch (FileNotFoundException e) {
+//            //If file not found, then it is protocol error or other things
+//            //Now it's making the same file & writing error message
+//            try {
+//                File fi = new File("Website URLs.txt");
+//                try (FileWriter fw = new FileWriter(fi, true)) {
+//                    fw.write("URLs Not Found Or Protocol Type Error");
+//                    fw.flush();
+//                    fw.close();
+//                    //After writing the file, open the file & showing error message in the display
+//                    FileReader fr = new FileReader("Website URLs.txt");
+//                    BufferedReader br = new BufferedReader(fr);
+//                    StringBuilder s = new StringBuilder();
+//                    int i;
+//                    try {
+//                        while ((i = br.read()) != -1) {
+//                            s.append((char) i);
+//                        }
+//                        txtOutput.setText(s.toString() + "\n");
+//                        br.close();
+//                        fr.close();
+//                    } catch (IOException ex) {
+//                        JOptionPane.showMessageDialog(this, "IOException Error");
+//                    }
+//                }
+//                //JOptionPane.showMessageDialog(this, "Saved Successfully");
+//            } catch (IOException ex) {
+//                JOptionPane.showMessageDialog(this, "Error To Save");
+//            }
+//        }
+//    }
 
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
-        //Getting the file path which URLs are saved
-        File fi = new File("Website URLs.txt");
-        //If the file found, then deleting that as it as previos file to generate new & fresh results
-        if (fi.exists()) {
-            fi.delete();
+        if (txtURL.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Enter URL", "Check URL Field", JOptionPane.ERROR_MESSAGE);
         } else {
-            //return;
+            boolean check = InternetConnection();
+            if (check) {
+                //Getting the file path which URLs are saved
+                File fi = new File("Website URLs.txt");
+                //If the file found, then deleting that as it as previos file to generate new & fresh results
+                if (fi.exists()) {
+                    fi.delete();
+                } else {
+                    //return;
+                }
+                //Getting the Domain
+                String url = txtURL.getText();
+                //Sending the domain to get all URLs of that
+                //Step 1: Genereting URLs
+                //Step 2: Result are saving in the file
+                WebsiteLinksGenerate.generator(url);
+                //Giving output to the display from the file
+                finalData(url);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please check your Internet Connection!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
-        //Getting the Domain
-        String url = txtURL.getText();
-        //Sending the domain to get all URLs of that
-        //Step 1: Genereting URLs
-        //Step 2: Result are saving in the file
-        WebsiteLinksGenerate.generator(url);
-        //Giving output to the display from the file
-        finalData(url);
     }//GEN-LAST:event_btnGoActionPerformed
 
     private void txtURLMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtURLMouseReleased
@@ -272,6 +290,18 @@ public final class Dashboard extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         new About().setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+
+        this.setLocation(x - xMouse, y - yMouse);
+    }//GEN-LAST:event_formMouseDragged
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        xMouse = evt.getX();
+        yMouse = evt.getY();
+    }//GEN-LAST:event_formMousePressed
 
     /**
      * @param args the command line arguments
@@ -311,7 +341,6 @@ public final class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
