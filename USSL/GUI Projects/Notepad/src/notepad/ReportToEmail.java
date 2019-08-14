@@ -153,7 +153,7 @@ public final class ReportToEmail extends javax.swing.JFrame {
 
                 SendMail.send(to, subject, message, userName, password);
             } else {
-                JOptionPane.showMessageDialog(this, "Please check your Internet Connection!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please Check Your Internet Connection!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnSendEmailActionPerformed
