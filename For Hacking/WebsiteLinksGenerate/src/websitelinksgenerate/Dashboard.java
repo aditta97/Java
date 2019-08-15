@@ -177,82 +177,82 @@ public final class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //Without File Storing System
-    public static void dataOutput(String url) {
-        String text = url;
-        storeData = storeData.concat(text).concat("\n");
-    }
+//    public static void dataOutput(String url) {
+//        String text = url;
+//        storeData = storeData.concat(text).concat("\n");
+//    }
     
     //With File Storing System
-//    public void dataOutput(String url) {
-//        String text = url;
-//        System.out.println(text);
-//        try {
-//            File fi = new File("Website URLs.txt");
-//            try (FileWriter fw = new FileWriter(fi, true)) {
-//                fw.write(text + "\n");
-//                fw.flush();
-//                fw.close();
-//            }
-//            //JOptionPane.showMessageDialog(this, "Saved Successfully");
-//        } catch (IOException e) {
-//            JOptionPane.showMessageDialog(this, "Error to Save");
-//        }
-//    }
+    public void dataOutput(String url) {
+        String text = url;
+        System.out.println(text);
+        try {
+            File fi = new File("./file/Website URLs.txt");
+            try (FileWriter fw = new FileWriter(fi, true)) {
+                fw.write(text + "\n");
+                fw.flush();
+                fw.close();
+            }
+            //JOptionPane.showMessageDialog(this, "Saved Successfully");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error to Save");
+        }
+    }
 
     //Without File Storing System
-    public void finalData(String finalData) {
-        txtOutput.setText(storeData);
-    }
+//    public void finalData(String finalData) {
+//        txtOutput.setText(storeData);
+//    }
     
     //With File Storing System
-//    public void finalData(String finalData) {
-//        //Opening the file to display output
-//        try {
-//            FileReader fr = new FileReader("Website URLs.txt");
-//            BufferedReader br = new BufferedReader(fr);
-//            StringBuilder s = new StringBuilder();
-//            int i;
-//            try {
-//                while ((i = br.read()) != -1) {
-//                    s.append((char) i);
-//                }
-//                txtOutput.setText(s.toString() + "\n");
-//                br.close();
-//                fr.close();
-//            } catch (IOException ex) {
-//                JOptionPane.showMessageDialog(this, "\"Website URLs.txt\" File Error", "Can't Read File", JOptionPane.ERROR_MESSAGE);
-//            }
-//        } catch (FileNotFoundException e) {
-//            //If file not found, then it is protocol error or other things
-//            //Now it's making the same file & writing error message
-//            try {
-//                File fi = new File("Website URLs.txt");
-//                try (FileWriter fw = new FileWriter(fi, true)) {
-//                    fw.write("URLs Not Found Or Protocol Type Error");
-//                    fw.flush();
-//                    fw.close();
-//                    //After writing the file, open the file & showing error message in the display
-//                    FileReader fr = new FileReader("Website URLs.txt");
-//                    BufferedReader br = new BufferedReader(fr);
-//                    StringBuilder s = new StringBuilder();
-//                    int i;
-//                    try {
-//                        while ((i = br.read()) != -1) {
-//                            s.append((char) i);
-//                        }
-//                        txtOutput.setText(s.toString() + "\n");
-//                        br.close();
-//                        fr.close();
-//                    } catch (IOException ex) {
-//                        JOptionPane.showMessageDialog(this, "IOException Error");
-//                    }
-//                }
-//                //JOptionPane.showMessageDialog(this, "Saved Successfully");
-//            } catch (IOException ex) {
-//                JOptionPane.showMessageDialog(this, "Error To Save");
-//            }
-//        }
-//    }
+    public void finalData(String finalData) {
+        //Opening the file to display output
+        try {
+            FileReader fr = new FileReader("./file/Website URLs.txt");
+            BufferedReader br = new BufferedReader(fr);
+            StringBuilder s = new StringBuilder();
+            int i;
+            try {
+                while ((i = br.read()) != -1) {
+                    s.append((char) i);
+                }
+                txtOutput.setText(s.toString() + "\n");
+                br.close();
+                fr.close();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "\"Website URLs.txt\" File Error", "Can't Read File", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (FileNotFoundException e) {
+            //If file not found, then it is protocol error or other things
+            //Now it's making the same file & writing error message
+            try {
+                File fi = new File("./file/Website URLs.txt");
+                try (FileWriter fw = new FileWriter(fi, true)) {
+                    fw.write("URLs Not Found Or Protocol Type Error");
+                    fw.flush();
+                    fw.close();
+                    //After writing the file, open the file & showing error message in the display
+                    FileReader fr = new FileReader("./file/Website URLs.txt");
+                    BufferedReader br = new BufferedReader(fr);
+                    StringBuilder s = new StringBuilder();
+                    int i;
+                    try {
+                        while ((i = br.read()) != -1) {
+                            s.append((char) i);
+                        }
+                        txtOutput.setText(s.toString() + "\n");
+                        br.close();
+                        fr.close();
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(this, "IOException Error");
+                    }
+                }
+                //JOptionPane.showMessageDialog(this, "Saved Successfully");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error To Save");
+            }
+        }
+    }
 
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         if (txtURL.getText().equals("")) {
@@ -261,7 +261,7 @@ public final class Dashboard extends javax.swing.JFrame {
             boolean check = InternetConnection();
             if (check) {
                 //Getting the file path which URLs are saved
-                File fi = new File("Website URLs.txt");
+                File fi = new File("./file/Website URLs.txt");
                 //If the file found, then deleting that as it as previos file to generate new & fresh results
                 if (fi.exists()) {
                     fi.delete();
