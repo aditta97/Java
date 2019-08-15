@@ -265,7 +265,7 @@ public final class Dashboard extends javax.swing.JFrame {
                 if (fi.exists()) {
                     fi.delete();
                 } else {
-                    //return;
+                    return;
                 }
                 //Getting the Domain
                 String url = txtURL.getText();
