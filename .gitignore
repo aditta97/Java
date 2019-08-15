@@ -346,3 +346,4 @@ hs_err_pid*
 /Java String/StringConcatenationByConcatMethod/build/
 /Java String/Substring/nbproject/private/
 /Java String/Substring/build/
+/Java String/ImmutableString/dist/
