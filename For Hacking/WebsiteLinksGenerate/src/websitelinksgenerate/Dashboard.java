@@ -185,7 +185,6 @@ public final class Dashboard extends javax.swing.JFrame {
     //With File Storing System
     public void dataOutput(String url) {
         String text = url;
-        System.out.println(text);
         try {
             File fi = new File("./file/Website URLs.txt");
             try (FileWriter fw = new FileWriter(fi, true)) {
