@@ -12,7 +12,7 @@ public class AppendMethod {
      */
     public static void main(String[] args) {
         StringBuffer sb = new StringBuffer("Hello");
-        sb.append(" Java");
+        sb.append(" Java");     //The append() method concatenates the given argument with this string.
         
         System.out.println(sb);
     }
