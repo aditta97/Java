@@ -1,9 +1,9 @@
-http://lifeoflikhon.com//index.html
-http://lifeoflikhon.com//#about
-http://lifeoflikhon.com//#services
-http://lifeoflikhon.com//#portfolio
-http://lifeoflikhon.com//#experiences
-http://lifeoflikhon.com//#contact
+http://lifeoflikhon.com/index.html
+http://lifeoflikhon.com/#about
+http://lifeoflikhon.com/#services
+http://lifeoflikhon.com/#portfolio
+http://lifeoflikhon.com/#experiences
+http://lifeoflikhon.com/#contact
 https://www.facebook.com/lifeoflikhon
 https://www.github.com/lifeoflikhon
 https://www.twitter.com/lifeoflikhon
