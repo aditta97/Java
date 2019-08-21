@@ -16,13 +16,13 @@ public class OffsetTimeClassExample {
     public static void main(String[] args) {
         OffsetTime offset = OffsetTime.now();
         int h = offset.get(ChronoField.HOUR_OF_DAY);
-        System.out.println(h);
+        System.out.println("Hour: " + h);
         
         int m = offset.get(ChronoField.MINUTE_OF_DAY);
-        System.out.println(m);
+        System.out.println("Minute: " + m);
         
         int s = offset.get(ChronoField.SECOND_OF_DAY);
-        System.out.println(s);
+        System.out.println("Second: " + s);
     }
     
 }
