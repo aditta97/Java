@@ -17,7 +17,7 @@ public class IsLeapMethod {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Year year1 = Year.of(20109);
+        Year year1 = Year.of(2019);
         System.out.println(year1.isLeap());
         
         Year year2 = Year.of(2020);
